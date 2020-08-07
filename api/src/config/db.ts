@@ -1,4 +1,4 @@
-import { ClientConfig } from 'pg';
+import { ClientConfig, Pool } from 'pg';
 require('dotenv').config({ path: '../.env.local' });
 
 const {
@@ -9,10 +9,12 @@ const {
   DB_HOST = 'localhost',
 } = process.env;
 
-export const DB_CONFIG: ClientConfig = {
+const DB_CONFIG: ClientConfig = {
   user: DB_USER,
   database: DB_DATABASE,
   password: DB_PASSWORD,
   port: +DB_PORT,
   host: DB_HOST,
 };
+
+export const pool = new Pool(DB_CONFIG);
