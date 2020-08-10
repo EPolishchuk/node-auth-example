@@ -1,7 +1,8 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import session, { Store } from 'express-session';
 import { SESSION_OPTIONS } from './config';
 import { register } from './routes';
+import { notFound, internalServerError } from './middleware';
 
 export const createApp = (store: Store) => {
   const app = express();
@@ -12,7 +13,9 @@ export const createApp = (store: Store) => {
 
   app.use(register);
 
-  app.get('/', (req, res) => res.json({ message: 'root OK' }));
+  app.use(notFound);
+
+  app.use(internalServerError);
 
   return app;
 };
