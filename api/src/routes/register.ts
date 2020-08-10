@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import { validate, registerShema } from '../validation';
-import { pool } from '../config';
+import { pool, BCRYPT_WORK_FACTOR } from '../config';
 import { logIn } from '../auth';
 import { catchAsync, guest } from '../middleware';
+import { hash } from 'bcryptjs';
 
 const router = Router();
 
@@ -12,7 +13,11 @@ router.post(
   catchAsync(async (req, res) => {
     await validate(registerShema, req.body);
 
-    const { email, name, password } = req.body;
+    const { email, name } = req.body;
+
+    let { password } = req.body;
+
+    password = await hash(password, BCRYPT_WORK_FACTOR);
 
     try {
       const userFound: any = await pool.query(
