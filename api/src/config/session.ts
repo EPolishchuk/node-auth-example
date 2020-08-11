@@ -4,7 +4,7 @@ require('dotenv').config({ path: '../.env.local' });
 
 const HALF_HOUR = 1000 * 60 * 30;
 
-const {
+export const {
   SESSION_SECRET = 'this is extreme secret',
   SESSION_NAME = 'sid',
   SESSION_IDLE_TIMEOUT = HALF_HOUR,

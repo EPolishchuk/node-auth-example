@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import session, { Store } from 'express-session';
 import { SESSION_OPTIONS } from './config';
-import { register } from './routes';
+import { register, login } from './routes';
 import { notFound, internalServerError } from './middleware';
 
 export const createApp = (store: Store) => {
@@ -10,6 +10,8 @@ export const createApp = (store: Store) => {
   app.use(express.json());
 
   app.use(session({ ...SESSION_OPTIONS, store }));
+
+  app.use(login);
 
   app.use(register);
 
